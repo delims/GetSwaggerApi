@@ -7,7 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4F1C3F8D24D2606100561B2F /* NetworkApi.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F2B07FF24CA87680028286E /* NetworkApi.m */; };
 		4F2B07F924CA778D0028286E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F2B07F824CA778D0028286E /* main.m */; };
+		4F2B081124CA8E4D0028286E /* TagModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F2B081024CA8E4D0028286E /* TagModel.m */; };
+		4F2B081224CACAA80028286E /* NSObject+YYModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F2B080424CA8DD40028286E /* NSObject+YYModel.m */; };
+		4F2B081324CACAA80028286E /* YYClassInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F2B080524CA8DD40028286E /* YYClassInfo.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,6 +29,15 @@
 /* Begin PBXFileReference section */
 		4F2B07F524CA778D0028286E /* GetSwagger */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = GetSwagger; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F2B07F824CA778D0028286E /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		4F2B07FF24CA87680028286E /* NetworkApi.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NetworkApi.m; sourceTree = "<group>"; };
+		4F2B080124CA87790028286E /* NetworkApi.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NetworkApi.h; sourceTree = "<group>"; };
+		4F2B080324CA8DD40028286E /* YYClassInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YYClassInfo.h; sourceTree = "<group>"; };
+		4F2B080424CA8DD40028286E /* NSObject+YYModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSObject+YYModel.m"; sourceTree = "<group>"; };
+		4F2B080524CA8DD40028286E /* YYClassInfo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YYClassInfo.m; sourceTree = "<group>"; };
+		4F2B080624CA8DD40028286E /* NSObject+YYModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSObject+YYModel.h"; sourceTree = "<group>"; };
+		4F2B080F24CA8E4D0028286E /* TagModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TagModel.h; sourceTree = "<group>"; };
+		4F2B081024CA8E4D0028286E /* TagModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TagModel.m; sourceTree = "<group>"; };
+		4F4B019F24D82B5D00DFA021 /* swagger.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = swagger.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -43,6 +56,7 @@
 			children = (
 				4F2B07F724CA778D0028286E /* GetSwagger */,
 				4F2B07F624CA778D0028286E /* Products */,
+				A91078A8D00B385834A15275 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -57,9 +71,41 @@
 		4F2B07F724CA778D0028286E /* GetSwagger */ = {
 			isa = PBXGroup;
 			children = (
+				4F2B080E24CA8E4D0028286E /* model */,
+				4F2B080224CA8DD40028286E /* yymodel */,
 				4F2B07F824CA778D0028286E /* main.m */,
+				4F4B019F24D82B5D00DFA021 /* swagger.txt */,
+				4F2B07FF24CA87680028286E /* NetworkApi.m */,
+				4F2B080124CA87790028286E /* NetworkApi.h */,
 			);
 			path = GetSwagger;
+			sourceTree = "<group>";
+		};
+		4F2B080224CA8DD40028286E /* yymodel */ = {
+			isa = PBXGroup;
+			children = (
+				4F2B080624CA8DD40028286E /* NSObject+YYModel.h */,
+				4F2B080424CA8DD40028286E /* NSObject+YYModel.m */,
+				4F2B080324CA8DD40028286E /* YYClassInfo.h */,
+				4F2B080524CA8DD40028286E /* YYClassInfo.m */,
+			);
+			path = yymodel;
+			sourceTree = "<group>";
+		};
+		4F2B080E24CA8E4D0028286E /* model */ = {
+			isa = PBXGroup;
+			children = (
+				4F2B080F24CA8E4D0028286E /* TagModel.h */,
+				4F2B081024CA8E4D0028286E /* TagModel.m */,
+			);
+			path = model;
+			sourceTree = "<group>";
+		};
+		A91078A8D00B385834A15275 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -69,6 +115,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4F2B07FC24CA778D0028286E /* Build configuration list for PBXNativeTarget "GetSwagger" */;
 			buildPhases = (
+				F4865FC46DB43C3BC7083EA6 /* [CP] Check Pods Manifest.lock */,
 				4F2B07F124CA778D0028286E /* Sources */,
 				4F2B07F224CA778D0028286E /* Frameworks */,
 				4F2B07F324CA778D0028286E /* CopyFiles */,
@@ -114,11 +161,41 @@
 		};
 /* End PBXProject section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		F4865FC46DB43C3BC7083EA6 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-GetSwagger-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "
+";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		4F2B07F124CA778D0028286E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4F1C3F8D24D2606100561B2F /* NetworkApi.m in Sources */,
+				4F2B081224CACAA80028286E /* NSObject+YYModel.m in Sources */,
+				4F2B081324CACAA80028286E /* YYClassInfo.m in Sources */,
+				4F2B081124CA8E4D0028286E /* TagModel.m in Sources */,
 				4F2B07F924CA778D0028286E /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -241,6 +318,9 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 79YNH6CFRS;
 				ENABLE_HARDENED_RUNTIME = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_BUNDLE_IDENTIFIER = com.delims.getswagger;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -251,6 +331,9 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 79YNH6CFRS;
 				ENABLE_HARDENED_RUNTIME = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_BUNDLE_IDENTIFIER = com.delims.getswagger;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
