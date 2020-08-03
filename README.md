@@ -1,7 +1,7 @@
 ## 自动获取swagger中的API集成到项目中。
 
-1. swagger.txt 中存有swagger.json 的URL，以及获取后需要保存的路径。
-2. 把swagger.txt和 编译后的GetSwagger可执行程序 放在同一目录下
+1. swagger.txt 中存有swagger.json的URL和获取后需要保存的路径。
+2. 把swagger.txt和编译后的GetSwagger可执行程序放在同一目录下
 3. 执行 GetSwagger 即可自动集成。
 4. swagger.txt 内容如下，可自行替换。
 
