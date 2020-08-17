@@ -37,10 +37,8 @@ NSDictionary *dictForPath(NSDictionary *map, NSString* path)
         if ([dict isKindOfClass:NSDictionary.class] == NO) continue;
         dict = [dict objectForKey:key];
     }
-    
     return dict;
 }
-
 
 NSString *spaceString(NSUInteger num)
 {
@@ -107,22 +105,32 @@ NSDictionary *getMapFromURL(NSString *urlString)
     return map;
 }
 
-void saveToFile(NSDictionary* tagModelsMap,NSString *filePath)
+NSString *h_file_header(void)
 {
-    
-    NSMutableString *m_fileString = NSMutableString.string;
     NSMutableString *h_fileString = NSMutableString.string;
-    int count = 0;
     NSDateFormatter *formatter = NSDateFormatter.new;
     [formatter setDateFormat:@"yyyy/MM/dd"];
     NSString *dateString = [formatter stringFromDate:NSDate.date];
-    
+    [h_fileString appendFormat:@"//\n//  NetworkApi.h\n//  GetSwagger\n//\n//  Created by delims on %@.\n//  Copyright © %@ delims. All rights reserved.\n\n",dateString, [dateString substringToIndex:4]];
+    [h_fileString appendFormat:@"#import <Foundation/Foundation.h>\n\n"];
+    return h_fileString;
+}
+
+NSString *m_file_header(void)
+{
+    NSMutableString *m_fileString = NSMutableString.string;
+    NSDateFormatter *formatter = NSDateFormatter.new;
+    [formatter setDateFormat:@"yyyy/MM/dd"];
+    NSString *dateString = [formatter stringFromDate:NSDate.date];
     [m_fileString appendFormat:@"//\n//  NetworkApi.m\n//  GetSwagger\n//\n//  Created by delims on %@.\n//  Copyright © %@ delims. All rights reserved.\n\n",dateString, [dateString substringToIndex:4]];
     [m_fileString appendFormat:@"#import \"NetworkApi.h\"\n\n"];
-    [h_fileString appendFormat:@"//\n//  NetworkApi.h\n//  GetSwagger\n//\n//  Created by delims on %@.\n//  Copyright © %@ delims. All rights reserved.\n\n",dateString, [dateString substringToIndex:4]];
-    
-    [h_fileString appendFormat:@"#import <Foundation/Foundation.h>\n\n"];
-    
+    return m_fileString;
+}
+
+void saveToFile(NSDictionary* tagModelsMap,NSString *filePath, NSMutableString **h_file_content, NSMutableString **m_file_content)
+{
+    NSMutableString *m_fileString = NSMutableString.string;
+    NSMutableString *h_fileString = NSMutableString.string;
     for (TagModel *tag in tagModelsMap.allValues) {
         [m_fileString appendFormat:@"#pragma mark %@ %@ \n", tag.name,tag.desc];
         [h_fileString appendFormat:@"#pragma mark %@ %@ \n", tag.name,tag.desc];
@@ -162,41 +170,37 @@ void saveToFile(NSDictionary* tagModelsMap,NSString *filePath)
                 }
             }
             [m_fileString appendFormat:@"@endcode\n"];
-
             
             [m_fileString appendFormat:@"*/ \n"];
             [m_fileString appendFormat:@"extern NSString * const %@;\n\n",path.key];
             [h_fileString appendFormat:@"static NSString * const %@ = %@; //%@\n",path.key,path.path,path.summary];
-            count ++;
         }
         [h_fileString appendFormat:@"\n"];
         [m_fileString appendFormat:@"\n"];
     }
     
-    NSData *m_textData = [m_fileString dataUsingEncoding:NSUTF8StringEncoding];
-    NSData *h_textData = [h_fileString dataUsingEncoding:NSUTF8StringEncoding];
-    NSString *m_filePath = [NSString stringWithFormat:@"%@.m",filePath];
-    NSString *h_filePath = [NSString stringWithFormat:@"%@.h",filePath];
-    
-//    NSString *h_file_content = [NSString.alloc initWithContentsOfFile:h_filePath encoding:NSUTF8StringEncoding error:nil];
-//    NSString *m_file_content = [NSString.alloc initWithContentsOfFile:m_filePath encoding:NSUTF8StringEncoding error:nil];
-    
-    [m_textData writeToFile:m_filePath atomically:YES];
-    [h_textData writeToFile:h_filePath atomically:YES];
-    printf("update done. \n%i api\n",count);
+    [*h_file_content appendString:h_fileString];
+    [*m_file_content appendString:m_fileString];
 }
 
 
 int main(int argc, const char * argv[]) {
     
-    NSString *name = @"swagger.txt";
-    if ([NSFileManager.defaultManager fileExistsAtPath:name] == NO) {
+    const char *path = argv[0];
+    
+    NSString *currentPath = [NSString.alloc initWithCString:path encoding:NSUTF8StringEncoding];
+    
+    NSLog(@"%@",currentPath);
+    currentPath = [currentPath stringByDeletingLastPathComponent];
+    NSString *swaggerPath = [currentPath stringByAppendingPathComponent:@"swagger.txt"];
+    
+    if ([NSFileManager.defaultManager fileExistsAtPath:swaggerPath] == NO) {
         printf("no \"swagger.txt\" file found in current path. \n");
         return 1;
     }
     
     NSError *error = nil;
-    NSString *contentString = [NSString.alloc initWithContentsOfFile:name encoding:NSUTF8StringEncoding error:&error];
+    NSString *contentString = [NSString.alloc initWithContentsOfFile:swaggerPath encoding:NSUTF8StringEncoding error:&error];
     
     if (error) {
         printf("%s \n",[error.localizedFailureReason cStringUsingEncoding:NSString.defaultCStringEncoding]);
@@ -224,9 +228,15 @@ int main(int argc, const char * argv[]) {
         NSArray *URLStringArray = json;
         [NSString stringWithFormat:@""];
         
-        NSMutableDictionary *tagModelsMap = NSMutableDictionary.dictionary;
         printf("swagger api updating...\n");
+        NSInteger count = 0;
+        
+        NSMutableString *m_fileString = m_file_header().mutableCopy;
+        NSMutableString *h_fileString = h_file_header().mutableCopy;
+        
         for (NSString *url in URLStringArray) {
+            NSMutableDictionary *tagModelsMap = NSMutableDictionary.dictionary;
+
             NSDictionary *map = getMapFromURL(url);
             
             NSDictionary *paths = [map objectForKey:@"paths"];
@@ -305,6 +315,8 @@ int main(int argc, const char * argv[]) {
                         pathModel.map = map;
                         pathModel.requestBodyDesc = requestBodyDesc;
                         [tagModel.paths addObject:pathModel];
+                        
+                        count ++;
                     }
 //                    NSLog(@"%@ %@ %@",path,method,summary);
 //                    printf("%s %s %s\n",[path cStringUsingEncoding:NSUTF8StringEncoding],
@@ -314,10 +326,19 @@ int main(int argc, const char * argv[]) {
                     [allApiString appendFormat:@"static NSString *const \"%@\" %@ %@ \n",path,method,summary];
                 }
             }
+//            saveToFile(tagModelsMap,filePath,);
+            saveToFile(tagModelsMap, filePath, &h_fileString, &m_fileString);
         }
-        saveToFile(tagModelsMap,filePath);
+        NSData *m_textData = [m_fileString dataUsingEncoding:NSUTF8StringEncoding];
+        NSData *h_textData = [h_fileString dataUsingEncoding:NSUTF8StringEncoding];
+        
+        NSString *m_filePath = [NSString stringWithFormat:@"%@.m",filePath];
+        NSString *h_filePath = [NSString stringWithFormat:@"%@.h",filePath];
+        
+        [m_textData writeToFile:m_filePath atomically:YES];
+        [h_textData writeToFile:h_filePath atomically:YES];
+        printf("update done. \n%li api\n",(long)count);
     }
-//    NSLog(@"%@",kApiCropPlantPlans);
     return 0;
 }
 
